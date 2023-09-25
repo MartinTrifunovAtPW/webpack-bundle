@@ -35,8 +35,10 @@ EOT
 
         $mode = $this->installAssetsHelper->decideInstalledManager($output);
         if ($mode !== null) {
-            $this->installAssetsHelper->installNodeModules($mode, $input, $output);
+            return $this->installAssetsHelper->installNodeModules($mode, $input, $output);
         }
+
+        return 1;
     }
 
     private function addStylesConfiguration(OutputInterface $output)

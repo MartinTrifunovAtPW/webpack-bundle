@@ -34,7 +34,7 @@ class AssetItem
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getGroup()
     {
@@ -42,7 +42,7 @@ class AssetItem
     }
 
     /**
-     * @param null|string $group
+     * @param string|null $group
      */
     public function setGroup($group)
     {

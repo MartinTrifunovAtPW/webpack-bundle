@@ -8,11 +8,6 @@ class EntryFileManager
     private $disabledExtensions;
     private $typeMap;
 
-    /**
-     * @param array $enabledExtensions
-     * @param array $disabledExtensions
-     * @param array $typeMap
-     */
     public function __construct(array $enabledExtensions, array $disabledExtensions, array $typeMap)
     {
         $this->enabledExtensions = $enabledExtensions;
@@ -23,7 +18,7 @@ class EntryFileManager
     public function getEntryFileType($asset)
     {
         $assetPath = $this->removeLoaders($asset);
-        $extension = strtolower(pathinfo($assetPath, PATHINFO_EXTENSION));
+        $extension = strtolower(pathinfo($assetPath, \PATHINFO_EXTENSION));
         if ($this->isExtensionIncluded($extension)) {
             return $this->mapExtension($extension);
         }

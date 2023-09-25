@@ -2,11 +2,11 @@
 
 namespace Maba\Bundle\WebpackBundle\Twig;
 
-use Twig_Extension as Extension;
-use Twig_SimpleFunction as SimpleFunction;
 use Maba\Bundle\WebpackBundle\Service\AssetManager;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class WebpackExtension extends Extension
+class WebpackExtension extends AbstractExtension
 {
     const FUNCTION_NAME = 'webpack_asset';
     const NAMED_ASSET_FUNCTION_NAME = 'webpack_named_asset';
@@ -21,8 +21,8 @@ class WebpackExtension extends Extension
     public function getFunctions()
     {
         return [
-            new SimpleFunction(self::FUNCTION_NAME, [$this, 'getAssetUrl']),
-            new SimpleFunction(self::NAMED_ASSET_FUNCTION_NAME, [$this, 'getNamedAssetUrl']),
+            new TwigFunction(self::FUNCTION_NAME, [$this, 'getAssetUrl']),
+            new TwigFunction(self::NAMED_ASSET_FUNCTION_NAME, [$this, 'getNamedAssetUrl']),
         ];
     }
 
@@ -38,7 +38,7 @@ class WebpackExtension extends Extension
      * @param string|null $type Type of asset. If null, type is guessed by extension
      * @param string|null $group Not used here - only used when parsing twig templates to group assets
      *
-     * @return null|string
+     * @return string|null
      */
     public function getAssetUrl($resource, $type = null, $group = null)
     {
@@ -49,7 +49,7 @@ class WebpackExtension extends Extension
      * @param string $name
      * @param string $type
      *
-     * @return null|string
+     * @return string|null
      */
     public function getNamedAssetUrl($name, $type = null)
     {

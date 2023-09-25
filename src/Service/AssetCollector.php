@@ -23,16 +23,13 @@ class AssetCollector
         $this->errorHandler = $errorHandler;
     }
 
-    /**
-     * @param AssetProviderInterface $assetProvider
-     */
     public function addAssetProvider(AssetProviderInterface $assetProvider)
     {
         $this->assetProviders[] = $assetProvider;
     }
 
     /**
-     * @param null|mixed $previousContext
+     * @param mixed|null $previousContext
      * @return AssetResult
      */
     public function getAssets($previousContext = null)
@@ -49,7 +46,6 @@ class AssetCollector
     }
 
     /**
-     * @param ArrayObject $groupedAssets
      * @param AssetItem[] $assets
      */
     private function mergeAssets(ArrayObject $groupedAssets, $assets)

@@ -11,7 +11,6 @@ class AssetLocator
     private $prefix;
 
     /**
-     * @param AliasManager $aliasManager
      * @param string $prefix
      */
     public function __construct(
@@ -56,11 +55,7 @@ class AssetLocator
         try {
             $aliasPath = $this->aliasManager->getAliasPath($alias);
         } catch (RuntimeException $exception) {
-            throw new AssetNotFoundException(
-                sprintf('Cannot locate asset (%s) due to invalid alias (%s)', $asset, $alias),
-                0,
-                $exception
-            );
+            throw new AssetNotFoundException(sprintf('Cannot locate asset (%s) due to invalid alias (%s)', $asset, $alias), 0, $exception);
         }
         return $aliasPath . mb_substr($asset, $position);
     }

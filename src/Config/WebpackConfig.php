@@ -43,7 +43,6 @@ class WebpackConfig
     }
 
     /**
-     * @param array $entryPoints
      * @return $this
      */
     public function setEntryPoints(array $entryPoints)
@@ -61,7 +60,6 @@ class WebpackConfig
     }
 
     /**
-     * @param array $aliases
      * @return $this
      */
     public function setAliases(array $aliases)
@@ -78,9 +76,6 @@ class WebpackConfig
         return $this->assetGroups;
     }
 
-    /**
-     * @param array $assetGroups
-     */
     public function setAssetGroups(array $assetGroups)
     {
         $this->assetGroups = $assetGroups;

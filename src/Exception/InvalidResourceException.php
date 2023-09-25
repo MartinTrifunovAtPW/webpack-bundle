@@ -16,7 +16,6 @@ class InvalidResourceException extends RuntimeException
      * @param string $message
      * @param mixed $resource
      * @param int $code
-     * @param Exception|null $previous
      */
     public function __construct($message, $resource, $code = 0, Exception $previous = null)
     {

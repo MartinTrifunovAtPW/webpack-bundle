@@ -7,12 +7,12 @@ use Maba\Bundle\WebpackBundle\Exception\InvalidContextException;
 use Maba\Bundle\WebpackBundle\Exception\InvalidResourceException;
 use Maba\Bundle\WebpackBundle\Exception\ResourceParsingException;
 use Maba\Bundle\WebpackBundle\Twig\WebpackExtension;
-use Twig_Environment as Environment;
-use Twig_Error_Syntax as SyntaxException;
-use Twig_Node as Node;
-use Twig_Source as Source;
-use Twig_Node_Expression_Constant as ConstantFunction;
-use Twig_Node_Expression_Function as ExpressionFunction;
+use Twig\Environment;
+use Twig\Error\SyntaxError;
+use Twig\Node\Expression\ConstantExpression;
+use Twig\Node\Expression\FunctionExpression;
+use Twig\Node\Node;
+use Twig\Source;
 
 class TwigAssetProvider
 {
@@ -43,10 +43,7 @@ class TwigAssetProvider
                 || !isset($previousContext['assets'])
                 || !is_array($previousContext['assets'])
             ) {
-                throw new InvalidContextException(
-                    'Expected context with int `modified_at` and array `assets`',
-                    $previousContext
-                );
+                throw new InvalidContextException('Expected context with int `modified_at` and array `assets`', $previousContext);
             }
 
             if ($previousContext['modified_at'] === filemtime($fileName)) {
@@ -60,7 +57,7 @@ class TwigAssetProvider
         try {
             $tokens = $this->twig->tokenize(new Source(file_get_contents($fileName), $fileName));
             $node = $this->twig->parse($tokens);
-        } catch (SyntaxException $exception) {
+        } catch (SyntaxError $exception) {
             $this->errorHandler->processException(
                 new ResourceParsingException('Got twig syntax exception while parsing', 0, $exception)
             );
@@ -78,7 +75,7 @@ class TwigAssetProvider
     private function loadNode(Node $node, $resource)
     {
         if ($this->isFunctionNode($node)) {
-            /* @var ExpressionFunction $node */
+            /* @var FunctionExpression $node */
             return $this->parseFunctionNode($node, sprintf('File %s, line %s', $resource, $node->getTemplateLine()));
         }
 
@@ -94,14 +91,14 @@ class TwigAssetProvider
 
     private function isFunctionNode(Node $node)
     {
-        if ($node instanceof ExpressionFunction) {
+        if ($node instanceof FunctionExpression) {
             return $node->getAttribute('name') === WebpackExtension::FUNCTION_NAME;
         }
 
         return false;
     }
 
-    private function parseFunctionNode(ExpressionFunction $functionNode, $context)
+    private function parseFunctionNode(FunctionExpression $functionNode, $context)
     {
         $arguments = iterator_to_array($functionNode->getNode('arguments'));
         if (!is_array($arguments)) {
@@ -109,11 +106,7 @@ class TwigAssetProvider
         }
 
         if (count($arguments) < 1 || count($arguments) > 3) {
-            throw new ResourceParsingException(sprintf(
-                'Expected one to three arguments passed to function %s. %s',
-                WebpackExtension::FUNCTION_NAME,
-                $context
-            ));
+            throw new ResourceParsingException(sprintf('Expected one to three arguments passed to function %s. %s', WebpackExtension::FUNCTION_NAME, $context));
         }
 
         $asset = new AssetItem();
@@ -137,12 +130,8 @@ class TwigAssetProvider
 
     private function getArgumentValue(Node $argument, $context)
     {
-        if (!$argument instanceof ConstantFunction) {
-            throw new ResourceParsingException(sprintf(
-                'Argument passed to function %s must be text node to parse without context. %s',
-                WebpackExtension::FUNCTION_NAME,
-                $context
-            ));
+        if (!$argument instanceof ConstantExpression) {
+            throw new ResourceParsingException(sprintf('Argument passed to function %s must be text node to parse without context. %s', WebpackExtension::FUNCTION_NAME, $context));
         }
         return $argument->getAttribute('value');
     }

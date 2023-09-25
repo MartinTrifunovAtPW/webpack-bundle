@@ -3,18 +3,18 @@
 namespace Maba\Bundle\WebpackBundle\Twig;
 
 use Maba\Bundle\WebpackBundle\Service\AssetManager;
-use Twig_Token as Token;
-use Twig_TokenParser as TokenParser;
-use Twig_Node_Expression_Function as FunctionExpression;
-use Twig_Node as Node;
-use Twig_Node_If as IfNode;
-use Twig_Node_Set as SetNode;
-use Twig_Node_Expression_AssignName as AssignNameExpression;
-use Twig_Node_Expression_Constant as ConstantExpression;
-use Twig_Error_Syntax as SyntaxError;
-use Twig_TokenStream as TokenStream;
+use Twig\Error\SyntaxError;
+use Twig\Node\Expression\AssignNameExpression;
+use Twig\Node\Expression\ConstantExpression;
+use Twig\Node\Expression\FunctionExpression;
+use Twig\Node\IfNode;
+use Twig\Node\Node;
+use Twig\Node\SetNode;
+use Twig\Token;
+use Twig\TokenParser\AbstractTokenParser;
+use Twig\TokenStream;
 
-class WebpackTokenParser extends TokenParser
+class WebpackTokenParser extends AbstractTokenParser
 {
     const TAG_NAME = 'webpack';
 
@@ -63,16 +63,12 @@ class WebpackTokenParser extends TokenParser
             $parsedTag->markAsNamed();
         } elseif ($stream->test(Token::NAME_TYPE, 'group')) {
             $stream->next();
-            $stream->expect(\Twig_Token::OPERATOR_TYPE, '=');
-            $parsedTag->setGroup($stream->expect(\Twig_Token::STRING_TYPE)->getValue());
+            $stream->expect(Token::OPERATOR_TYPE, '=');
+            $parsedTag->setGroup($stream->expect(Token::STRING_TYPE)->getValue());
         } else {
             $token = $stream->getCurrent();
             /* @noinspection PhpInternalEntityUsedInspection */
-            throw new SyntaxError(sprintf(
-                'Unexpected token "%s" of value "%s"',
-                Token::typeToEnglish($token->getType()),
-                $token->getValue()
-            ), $token->getLine(), $stream->getSourceContext());
+            throw new SyntaxError(sprintf('Unexpected token "%s" of value "%s"', Token::typeToEnglish($token->getType()), $token->getValue()), $token->getLine(), $stream->getSourceContext());
         }
     }
 

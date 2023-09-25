@@ -40,5 +40,7 @@ EOT
                 $output->write($buffer);
             }
         });
+
+        return 0;
     }
 }

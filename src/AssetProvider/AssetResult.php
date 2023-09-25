@@ -36,7 +36,6 @@ class AssetResult
     }
 
     /**
-     * @param AssetItem $asset
      * @return $this
      */
     public function addAsset(AssetItem $asset)

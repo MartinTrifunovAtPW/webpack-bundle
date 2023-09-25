@@ -21,11 +21,7 @@ class ManifestStorage
     public function getManifest()
     {
         if (!file_exists($this->manifestPath)) {
-            throw new RuntimeException(sprintf(
-                'Manifest file not found: %s. %s',
-                $this->manifestPath,
-                'You must run maba:webpack:compile or maba:webpack:dev-server before twig can render webpack assets'
-            ));
+            throw new RuntimeException(sprintf('Manifest file not found: %s. %s', $this->manifestPath, 'You must run maba:webpack:compile or maba:webpack:dev-server before twig can render webpack assets'));
         }
         return require $this->manifestPath;
     }

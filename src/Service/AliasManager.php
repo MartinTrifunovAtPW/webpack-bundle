@@ -2,10 +2,10 @@
 
 namespace Maba\Bundle\WebpackBundle\Service;
 
-use Symfony\Component\Config\FileLocatorInterface;
 use InvalidArgumentException;
-use Symfony\Component\DependencyInjection\Container;
 use RuntimeException;
+use Symfony\Component\Config\FileLocatorInterface;
+use Symfony\Component\DependencyInjection\Container;
 
 class AliasManager
 {
@@ -21,10 +21,7 @@ class AliasManager
     private $prefix;
 
     /**
-     * @param FileLocatorInterface $fileLocator
-     * @param array $registerBundles
      * @param string $pathInBundle
-     * @param array $additionalAliases
      * @param string $prefix
      */
     public function __construct(

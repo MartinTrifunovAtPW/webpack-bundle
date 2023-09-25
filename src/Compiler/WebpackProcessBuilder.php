@@ -3,9 +3,8 @@
 namespace Maba\Bundle\WebpackBundle\Compiler;
 
 use Maba\Bundle\WebpackBundle\Config\WebpackConfig;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\RuntimeException as ProcessRuntimeException;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 
 class WebpackProcessBuilder
 {
@@ -82,11 +81,6 @@ class WebpackProcessBuilder
         $process = $this->buildProcess($arguments, $environment);
         $process->setTimeout(0);
 
-        // from symfony 3.3 exec is added automatically
-        if (DIRECTORY_SEPARATOR !== '\\' && substr($process->getCommandLine(), 0, 5) !== 'exec ') {
-            $process->setCommandLine('exec ' . $process->getCommandLine());
-        }
-
         return $process;
     }
 
@@ -102,21 +96,10 @@ class WebpackProcessBuilder
 
     private function buildProcess($arguments, $environment)
     {
-        if (class_exists('Symfony\Component\Process\ProcessBuilder')) {
-            $builder = new ProcessBuilder($arguments);
-            $builder->addEnvironmentVariables($environment);
-            $builder->setWorkingDirectory($this->workingDirectory);
-            $builder->inheritEnvironmentVariables();
-            $process = $builder->getProcess();
-        } else {
-            // if ProcessBuilder is unavailable, this means that arguments can be array
-            //    and Process class has `inheritEnvironmentVariables` (^4.x)
-
-            $process = new Process($arguments);
-            $process->setEnv($environment);
-            $process->setWorkingDirectory($this->workingDirectory);
-            $process->inheritEnvironmentVariables();
-        }
+        $process = new Process($arguments);
+        $process->setEnv($environment);
+        $process->setWorkingDirectory($this->workingDirectory);
+//        $process->inheritEnvironmentVariables();
 
         $this->configureTty($process);
 
@@ -125,7 +108,7 @@ class WebpackProcessBuilder
 
     private function isTtyAvailable()
     {
-        $process = new Process('ls');
+        $process = new Process(['ls']);
         $this->configureTty($process);
         return $process->isTty();
     }

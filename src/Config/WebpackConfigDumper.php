@@ -15,7 +15,6 @@ class WebpackConfigDumper
      * @param string $includeConfigPath path of config to be included inside dumped config
      * @param string $manifestPath
      * @param string $environment
-     * @param array $parameters
      */
     public function __construct($path, $includeConfigPath, $manifestPath, $environment, array $parameters)
     {
@@ -27,7 +26,6 @@ class WebpackConfigDumper
     }
 
     /**
-     * @param WebpackConfig $config
      * @return string
      */
     public function dump(WebpackConfig $config)

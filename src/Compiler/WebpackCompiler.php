@@ -2,15 +2,15 @@
 
 namespace Maba\Bundle\WebpackBundle\Compiler;
 
+use Closure;
+use Exception;
 use Maba\Bundle\WebpackBundle\Config\WebpackConfig;
 use Maba\Bundle\WebpackBundle\Config\WebpackConfigManager;
 use Maba\Bundle\WebpackBundle\Exception\NoEntryPointsException;
 use Maba\Bundle\WebpackBundle\Service\ManifestStorage;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Process\Process;
-use Closure;
 use RuntimeException;
-use Exception;
+use Symfony\Component\Process\Process;
 
 class WebpackCompiler
 {
@@ -126,10 +126,7 @@ class WebpackCompiler
     {
         if (!file_exists($this->manifestPath)) {
             if ($failIfMissing) {
-                throw new RuntimeException(
-                    'Missing manifest file in ' . $this->manifestPath
-                    . '. Keep sure assets-webpack-plugin is enabled with the same path in webpack config'
-                );
+                throw new RuntimeException('Missing manifest file in ' . $this->manifestPath . '. Keep sure assets-webpack-plugin is enabled with the same path in webpack config');
             }
             return;
         }
@@ -153,7 +150,7 @@ class WebpackCompiler
     private function outputNoEntryPointsNotice(Closure $callback = null)
     {
         if ($callback !== null) {
-            $callback(Process::OUT, 'No entry points found - not running webpack' . PHP_EOL);
+            $callback(Process::OUT, 'No entry points found - not running webpack' . \PHP_EOL);
         }
     }
 }

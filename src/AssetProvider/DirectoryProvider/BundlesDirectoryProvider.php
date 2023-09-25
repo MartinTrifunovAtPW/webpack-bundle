@@ -11,9 +11,7 @@ class BundlesDirectoryProvider implements DirectoryProviderInterface
     private $bundles;
 
     /**
-     * @param KernelInterface $kernel
      * @param string $relativeDirectory directory path relative to bundle. For example "/Resources/views"
-     * @param array $bundles
      */
     public function __construct(KernelInterface $kernel, $relativeDirectory, array $bundles)
     {

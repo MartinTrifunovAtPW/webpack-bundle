@@ -2,8 +2,8 @@
 
 namespace Maba\Bundle\WebpackBundle\Twig;
 
-use Twig_TokenStream as TokenStream;
-use Twig_Error_Syntax as SyntaxError;
+use Twig\Error\SyntaxError;
+use Twig\TokenStream;
 
 class ParsedTag
 {

@@ -5,7 +5,7 @@ namespace Maba\Bundle\WebpackBundle\ErrorHandler;
 use Exception;
 use Maba\Bundle\WebpackBundle\Exception\ResourceParsingException;
 use Psr\Log\LoggerInterface;
-use Twig_Error_Syntax as SyntaxError;
+use Twig\Error\SyntaxError;
 
 /**
  * This class ignores twig syntax exceptions that designate "Unknowns":

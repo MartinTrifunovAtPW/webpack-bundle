@@ -92,11 +92,7 @@ class AssetManager
 
         if (!isset($this->manifest[$assetName])) {
             $additionalErrorInfo .= ' Is maba:webpack:dev-server running in the background?';
-            throw new RuntimeException(sprintf(
-                'No information in manifest for %s. %s',
-                $assetDescription,
-                trim($additionalErrorInfo)
-            ));
+            throw new RuntimeException(sprintf('No information in manifest for %s. %s', $assetDescription, trim($additionalErrorInfo)));
         }
 
         return $this->manifest[$assetName];
@@ -107,15 +103,7 @@ class AssetManager
         $entryFileType = $this->entryFileManager->getEntryFileType($asset);
         $type = $entryFileType !== null ? $entryFileType : self::TYPE_JS;
         if (!isset($manifestEntry[$type])) {
-            throw new RuntimeException(sprintf(
-                'No information in the manifest for type %s (key %s, asset %s). %s',
-                $type,
-                $assetName,
-                $asset,
-                'Probably extension is unsupported or some misconfiguration issue. '
-                . 'If this file should compile to javascript, please extend '
-                . 'entry_file.disabled_extensions in config.yml'
-            ));
+            throw new RuntimeException(sprintf('No information in the manifest for type %s (key %s, asset %s). %s', $type, $assetName, $asset, 'Probably extension is unsupported or some misconfiguration issue. ' . 'If this file should compile to javascript, please extend ' . 'entry_file.disabled_extensions in config.yml'));
         }
 
         return $type;

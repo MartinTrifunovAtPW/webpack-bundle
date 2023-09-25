@@ -67,7 +67,7 @@ EOT
 
         $this->copyPackage($pathToPackage, $input, $output);
         $this->copyWebpackConfig($pathToWebpackConfig, $input, $output);
-        $this->installNodeModules($input, $output);
+        return $this->installNodeModules($input, $output);
     }
 
     private function copyPackage($pathToPackage, InputInterface $input, OutputInterface $output)
@@ -126,11 +126,12 @@ EOT
         return $helper->ask($input, $output, $question);
     }
 
-    private function installNodeModules(InputInterface $input, OutputInterface $output)
+    private function installNodeModules(InputInterface $input, OutputInterface $output): int
     {
+        $return = 1;
         $mode = $this->installAssetsHelper->decideInstalledManager($output);
         if ($mode !== null) {
-            $this->installAssetsHelper->installNodeModules($mode, $input, $output);
+            $return = $this->installAssetsHelper->installNodeModules($mode, $input, $output);
         }
 
         $filesForGit = ['package.json', 'app/config/webpack.config.js'];
@@ -141,12 +142,14 @@ EOT
         }
 
         $this->outputAdditionalActions($output, $filesForGit);
+
+        return $return;
     }
 
     private function outputAdditionalActions(OutputInterface $output, array $filesForGit)
     {
         $notice = <<<'NOTICE'
-        
+
 <bold>Additional actions needed</bold>
 
 I would suggest to add the following into your git repository:

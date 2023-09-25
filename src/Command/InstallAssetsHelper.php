@@ -6,8 +6,8 @@ use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\RuntimeException as ProcessRuntimeException;
+use Symfony\Component\Process\Process;
 
 class InstallAssetsHelper
 {
@@ -35,17 +35,16 @@ class InstallAssetsHelper
     }
 
     /**
-     * @param OutputInterface $output
-     * @return null|string
+     * @return string|null
      */
     public function decideInstalledManager(OutputInterface $output)
     {
         $yarnLockFound = file_exists($this->rootDirectory . '/yarn.lock');
         $npmLockFound = file_exists($this->rootDirectory . '/package-lock.json');
 
-        $process = new Process('yarn --version');
+        $process = new Process(['yarn', '--version']);
         $yarnInstalled = $process->run() === 0;
-        $process = new Process('npm --version');
+        $process = new Process(['npm', '--version']);
         $npmInstalled = $process->run() === 0;
 
         if ($yarnLockFound && $yarnInstalled) {
@@ -67,19 +66,21 @@ class InstallAssetsHelper
         return null;
     }
 
-    public function installNodeModules($mode, InputInterface $input, OutputInterface $output)
+    public function installNodeModules($mode, InputInterface $input, OutputInterface $output): ?int
     {
         $process = new Process(
-            $mode === self::MODE_YARN ? 'yarn install' : 'npm install',
+            $mode === self::MODE_YARN ? ['yarn', 'install'] : ['npm', 'install'],
             $this->rootDirectory
         );
         if (!$this->askIfInstallNeeded($input, $output, $process)) {
-            return;
+            return 0;
         }
 
         $this->configureTty($process);
 
         $this->runProcess($process, $output);
+
+        return $process->getExitCode();
     }
 
     private function outputYarnDependencyError(OutputInterface $output)
@@ -165,7 +166,7 @@ NOTICE;
 
         if (!$process->isSuccessful()) {
             $error = <<<'ERROR'
-            
+
 <error>Error running %s (exit code %s)! Please look at the log for errors and re-run command.</error>
 
 ERROR;
