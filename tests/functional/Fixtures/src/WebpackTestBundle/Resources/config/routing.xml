@@ -4,16 +4,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="fixtures_maba_webpack_test_homepage" path="/">
-        <default key="_controller">FrameworkBundle:Template:template</default>
-        <default key="template">MabaWebpackTestBundle::index.html.twig</default>
+    <route id="fixtures_maba_webpack_test_homepage" path="/" controller="Symfony\Bundle\FrameworkBundle\Controller\TemplateController">
+        <default key="template">@MabaWebpackTestBundle/index.html.twig</default>
     </route>
-    <route id="fixtures_maba_webpack_test_customized" path="/customized">
-        <default key="_controller">FrameworkBundle:Template:template</default>
+    <route id="fixtures_maba_webpack_test_customized" path="/customized" controller="Symfony\Bundle\FrameworkBundle\Controller\TemplateController">
         <default key="template">@app_resources/views-customized/customized.html.twig</default>
     </route>
-    <route id="fixtures_maba_webpack_test_tags" path="/tags">
-        <default key="_controller">FrameworkBundle:Template:template</default>
-        <default key="template">MabaWebpackTestBundle::tags.html.twig</default>
+    <route id="fixtures_maba_webpack_test_tags" path="/tags" controller="Symfony\Bundle\FrameworkBundle\Controller\TemplateController">
+        <default key="template">@MabaWebpackTestBundle/tags.html.twig</default>
     </route>
 </routes>

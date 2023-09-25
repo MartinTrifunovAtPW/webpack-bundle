@@ -1,15 +1,14 @@
 <?php
 
-namespace Maba\Bundle\WebpackBundle\Tests\Service;
+namespace Tests\Unit;
 
-use Codeception\TestCase\Test;
 use Exception;
 use Maba\Bundle\WebpackBundle\Service\AssetLocator;
 use Maba\Bundle\WebpackBundle\Service\AssetResolver;
 use Maba\Bundle\WebpackBundle\Service\EntryFileManager;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-class AssetResolverTest extends Test
+class AssetResolverTest extends \Codeception\Test\Unit
 {
     /**
      * @param string|Exception $expected

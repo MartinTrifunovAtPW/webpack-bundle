@@ -1,5 +1,9 @@
 <?php
 
+namespace Test\Functional;
+
+use Test\Support\FunctionalTester;
+
 class CustomizedCest
 {
     public function _before(FunctionalTester $I)
@@ -19,17 +23,6 @@ class CustomizedCest
 
         $I->seeFileFound(__DIR__ . '/Fixtures/package.json');
         $I->seeFileFound(__DIR__ . '/Fixtures/app/config/webpack.config.js');
-
-        $this->assertCompilationSuccessful($I);
-    }
-
-    public function getNoErrorIfAssetsAreDumpedWithWebpack1(FunctionalTester $I)
-    {
-        $I->bootKernelWith('customized_v1');
-        $I->runCommand('maba:webpack:setup', ['--useWebpackV1' => null]);
-
-        $I->seeFileFound(__DIR__ . '/Fixtures/root_v1/package.json');
-        $I->seeFileFound(__DIR__ . '/Fixtures/root_v1/config.js');
 
         $this->assertCompilationSuccessful($I);
     }

@@ -1,7 +1,7 @@
-class_name: FunctionalTester
+actor: FunctionalTester
 modules:
-    enabled:
-        - \Helper\Functional:
-            app_path: 'tests/functional/Fixtures/app'
-            var_path: 'tests/functional/Fixtures/app'
-        - Filesystem
+  enabled:
+    - Test\Support\Helper\Functional:
+        app_path: "tests/functional/Fixtures/app"
+        kernel_class: 'Test\Functional\TestKernel'
+    - Filesystem

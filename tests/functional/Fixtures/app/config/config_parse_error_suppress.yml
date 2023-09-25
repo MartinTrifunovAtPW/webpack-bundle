@@ -1,10 +1,10 @@
-imports: [{resource: 'common.yml'}]
+imports: [{ resource: "common.yml" }]
 
 maba_webpack:
-    enabled_bundles:
-        - MabaWebpackTestBundle
-    twig:
-        suppress_errors: true
-        additional_directories:
-            - '%kernel.root_dir%/Resources/views-parse-error'
-            - '%kernel.root_dir%/Resources/views-unknowns'
+  enabled_bundles:
+    - MabaWebpackTestBundle
+  twig:
+    suppress_errors: true
+    additional_directories:
+      - "%kernel.project_dir%/app/Resources/views-parse-error"
+      - "%kernel.project_dir%/app/Resources/views-unknowns"

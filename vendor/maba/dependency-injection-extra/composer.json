@@ -1,0 +1,26 @@
+{
+    "name": "maba/dependency-injection-extra",
+    "keywords": ["di", "dependency injection", "compiler pass"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marius Balčytis",
+            "email": "marius.balcytis@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "symfony/dependency-injection": "^2.3|^3.0|^4.0|^5.0"
+    },
+    "require-dev": {
+        "satooshi/php-coveralls": "^0.6.1",
+        "phpunit/phpunit": "^4.8.36",
+        "sebastian/comparator": "^1.2.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Maba\\Component\\DependencyInjection\\": "src",
+            "Maba\\Component\\DependencyInjection\\Tests\\": "test"
+        }
+    }
+}

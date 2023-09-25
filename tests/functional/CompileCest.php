@@ -1,5 +1,9 @@
 <?php
 
+namespace Test\Functional;
+
+use Test\Support\FunctionalTester;
+
 class CompileCest
 {
     public function _before(FunctionalTester $I)

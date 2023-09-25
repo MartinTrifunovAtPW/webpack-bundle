@@ -1,18 +1,17 @@
 framework:
-    secret: 'secret'
-    templating:
-        engines: ['twig', 'php']
-    router:
-        resource: '%kernel.root_dir%/config/routing.yml'
-        strict_requirements: ~
-    profiler:
-      enabled: false
-    translator: ~
+  secret: "secret"
+  router:
+    resource: "%kernel.project_dir%/app/config/routing.yml"
+    strict_requirements: ~
+  profiler:
+    enabled: false
 
 twig:
-    paths:
-        "%kernel.root_dir%/Resources": app_resources
+  paths:
+    "%kernel.project_dir%/app/Resources": app_resources
+    "%kernel.project_dir%/src/WebpackTestBundle/Resources/views": MabaWebpackTestBundle
+    "%kernel.project_dir%/src/TestCommonsChunkBundle/Resources/views": MabaTestCommonsChunkBundle
 
 maba_webpack:
-    config:
-        path: '%kernel.root_dir%/config/webpack.config.js'
+  config:
+    path: "%kernel.project_dir%/app/config/webpack.config.js"

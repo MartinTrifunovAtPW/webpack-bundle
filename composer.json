@@ -1,45 +1,55 @@
 {
-    "name": "maba/webpack-bundle",
-    "type": "symfony-bundle",
-    "description": "Bundle to Integrate Webpack to Symfony",
-    "keywords": ["webpack", "assets", "symfony", "symfony2", "amd", "commonjs"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Marius Balčytis",
-            "email": "marius.balcytis@gmail.com"
-        }
-    ],
-    "require": {
-        "php": "^5.5 || >=7.0",
-        "symfony/framework-bundle": "^2.7|^3.0|^4.0",
-        "symfony/templating": "^2.1|^3.0|^4.0",
-        "symfony/console": "^2.5|^3.0|^4.0",
-        "symfony/routing": "^2.7|^3.0|^4.0",
-        "symfony/process": "^2.5|^3.0|^4.0",
-        "symfony/dependency-injection": "^2.6|^3.0|^4.0",
-        "symfony/twig-bundle": "^2.3|^3.0|^4.0",
-        "symfony/monolog-bundle": "^2.3|^3.0|^4.0",
-        "twig/twig": "^1.27|^2.0",
-        "maba/dependency-injection-extra": "^0.1.1|^1.0"
-    },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.2",
-        "symfony/framework-bundle": "^2.7.1|^3.0|^4.0",
-        "codeception/codeception": "~2.3@dev",
-        "symfony/translation": "^2.7|^3.0|^4.0",
-        "symfony/asset": "^2.7|^3.0|^4.0",
-        "doctrine/annotations": "^1.0",
-        "doctrine/cache": "^1.5"
-    },
-    "autoload": {
-        "psr-4": {
-            "Maba\\Bundle\\WebpackBundle\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Fixtures\\Maba\\Bundle\\": "tests/functional/Fixtures/src"
-        }
+  "name": "maba/webpack-bundle",
+  "type": "symfony-bundle",
+  "description": "Bundle to Integrate Webpack to Symfony",
+  "keywords": [
+    "webpack",
+    "assets",
+    "symfony",
+    "symfony2",
+    "amd",
+    "commonjs"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Marius Balčytis",
+      "email": "marius.balcytis@gmail.com"
     }
+  ],
+  "require": {
+    "php": ">=8.1",
+    "maba/dependency-injection-extra": "^0.1.1|^1.0",
+    "symfony/console": "^5.0|^6.0",
+    "symfony/dependency-injection": "^5.0|^6.0",
+    "symfony/framework-bundle": "^5.0|^6.0",
+    "symfony/monolog-bundle": "^3.0",
+    "symfony/process": "^5.0|^6.0",
+    "symfony/routing": "^5.0|^6.0",
+    "symfony/templating": "^5.0|^6.0",
+    "symfony/twig-bundle": "^5.0|^6.0",
+    "twig/twig": "^2.0|^3.0"
+  },
+  "require-dev": {
+    "codeception/codeception": "^5.0",
+    "codeception/module-asserts": "^3.0",
+    "codeception/module-filesystem": "^3.0",
+    "codeception/module-symfony": "^3.1",
+    "friendsofphp/php-cs-fixer": "^2.2",
+    "symfony/asset": "^5.0|^6.0",
+    "symfony/translation": "^5.0|^6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Maba\\Bundle\\WebpackBundle\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Fixtures\\Maba\\Bundle\\": "tests/functional/Fixtures/src"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  }
 }

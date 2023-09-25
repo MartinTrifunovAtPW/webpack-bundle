@@ -1,24 +1,23 @@
 <?php
 
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 class TestKernel extends Kernel
 {
     protected $configFile = 'config.yml';
 
-    public function registerBundles()
+    public function registerBundles(): array
     {
-        $bundles = [
-            new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new Symfony\Bundle\TwigBundle\TwigBundle(),
-            new Symfony\Bundle\MonologBundle\MonologBundle(),
-            new Maba\Bundle\WebpackBundle\MabaWebpackBundle(),
-            new Fixtures\Maba\Bundle\WebpackTestBundle\MabaWebpackTestBundle(),
-            new Fixtures\Maba\Bundle\WebpackAnotherTestBundle\MabaWebpackAnotherTestBundle(),
-            new Fixtures\Maba\Bundle\TestCommonsChunkBundle\MabaTestCommonsChunkBundle(),
+        return [
+            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new \Symfony\Bundle\TwigBundle\TwigBundle(),
+            new \Symfony\Bundle\MonologBundle\MonologBundle(),
+            new \Maba\Bundle\WebpackBundle\MabaWebpackBundle(),
+            new \Fixtures\Maba\Bundle\WebpackTestBundle\MabaWebpackTestBundle(),
+            new \Fixtures\Maba\Bundle\WebpackAnotherTestBundle\MabaWebpackAnotherTestBundle(),
+            new \Fixtures\Maba\Bundle\TestCommonsChunkBundle\MabaTestCommonsChunkBundle(),
         ];
-        return $bundles;
     }
 
     /**

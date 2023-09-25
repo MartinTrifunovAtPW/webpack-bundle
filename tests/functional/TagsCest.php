@@ -1,5 +1,9 @@
 <?php
 
+namespace Test\Functional;
+
+use Test\Support\FunctionalTester;
+
 class TagsCest
 {
     public function _before(FunctionalTester $I)

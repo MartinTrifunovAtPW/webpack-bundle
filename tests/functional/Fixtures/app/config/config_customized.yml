@@ -1,22 +1,22 @@
-imports: [{resource: 'common.yml'}]
+imports: [{ resource: "common.yml" }]
 
 maba_webpack:
-    enabled_bundles:
-        - MabaWebpackTestBundle
-    config:
-        parameters:
-            public_path: /assets/
-            path: '%kernel.root_dir%/../web/assets/'
-    aliases:
-        additional:
-            'a': '%kernel.root_dir%/../src/WebpackTestBundle/Resources/assets'
-            'app': '%kernel.root_dir%/Resources/assets'
-    twig:
-        additional_directories:
-            - '%kernel.root_dir%/Resources/views-customized'
-    bin:
-        webpack:
-            executable:
-                - node
-                - "--max-old-space-size=8192"
-                - node_modules/webpack/bin/webpack.js
+  enabled_bundles:
+    - MabaWebpackTestBundle
+  config:
+    parameters:
+      public_path: /assets/
+      path: "%kernel.project_dir%/web/assets/"
+  aliases:
+    additional:
+      "a": "%kernel.project_dir%/src/WebpackTestBundle/Resources/assets"
+      "app": "%kernel.project_dir%/app/Resources/assets"
+  twig:
+    additional_directories:
+      - "%kernel.project_dir%/app/Resources/views-customized"
+  bin:
+    webpack:
+      executable:
+        - node
+        - "--max-old-space-size=8192"
+        - node_modules/webpack/bin/webpack.js

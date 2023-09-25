@@ -1,11 +1,10 @@
 <?php
 
-namespace Maba\Bundle\WebpackBundle\Tests\Service;
+namespace Tests\Unit;
 
-use Codeception\TestCase\Test;
 use Maba\Bundle\WebpackBundle\Service\EntryFileManager;
 
-class EntryFileManagerTest extends Test
+class EntryFileManagerTest extends \Codeception\Test\Unit
 {
     /**
      * @param string $expected

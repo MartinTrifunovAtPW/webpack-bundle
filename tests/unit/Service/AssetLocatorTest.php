@@ -1,22 +1,22 @@
 <?php
 
-namespace Maba\Bundle\WebpackBundle\Tests\Service;
+namespace Tests\Unit;
 
 use Codeception\TestCase\Test;
+use Exception;
 use Maba\Bundle\WebpackBundle\Exception\AssetNotFoundException;
 use Maba\Bundle\WebpackBundle\Service\AliasManager;
 use Maba\Bundle\WebpackBundle\Service\AssetLocator;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
-use Exception;
 use RuntimeException;
 
-class AssetLocatorTest extends Test
+class AssetLocatorTest extends \Codeception\Test\Unit
 {
     /**
      * @param string|Exception $expected
      * @param string $asset
      * @param string|null $expectedAlias
-     * @param string|null|Exception $aliasPath
+     * @param string|Exception|null $aliasPath
      * @dataProvider locateAssetProvider
      */
     public function testLocateAsset($expected, $asset, $expectedAlias = null, $aliasPath = null)
@@ -26,7 +26,7 @@ class AssetLocatorTest extends Test
         $assetLocator = new AssetLocator($aliasManager, '@');
 
         if ($expected instanceof Exception) {
-            $this->setExpectedException(get_class($expected));
+            $this->expectException(get_class($expected));
             $assetLocator->locateAsset($asset);
         } else {
             $this->assertSame($expected, $assetLocator->locateAsset($asset));
@@ -37,7 +37,7 @@ class AssetLocatorTest extends Test
      * @param string|Exception $expected
      * @param string $asset
      * @param string|null $expectedAlias
-     * @param string|null|Exception $aliasPath
+     * @param string|Exception|null $aliasPath
      * @dataProvider dataProviderTestLocateAssetWithCustomPrefix
      */
     public function testLocateAssetWithCustomPrefix($expected, $asset, $expectedAlias = null, $aliasPath = null)
@@ -47,7 +47,7 @@ class AssetLocatorTest extends Test
         $assetLocator = new AssetLocator($aliasManager, 'PREFIX_');
 
         if ($expected instanceof Exception) {
-            $this->setExpectedException(get_class($expected));
+            $this->expectException(get_class($expected));
             $assetLocator->locateAsset($asset);
         } else {
             $this->assertSame($expected, $assetLocator->locateAsset($asset));

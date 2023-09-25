@@ -24,8 +24,8 @@ class Configuration implements ConfigurationInterface
 
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('maba_webpack');
+        $treeBuilder = new TreeBuilder('maba_webpack');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootChildren = $rootNode->children();
 
@@ -86,7 +86,7 @@ class Configuration implements ConfigurationInterface
         $bin = $rootChildren->arrayNode('bin')->addDefaultsIfNotSet()->children();
 
         $bin->booleanNode('disable_tty')->defaultValue($this->environment !== 'dev');
-        $bin->scalarNode('working_directory')->defaultValue('%kernel.root_dir%/..');
+        $bin->scalarNode('working_directory')->defaultValue('%kernel.project_dir%');
 
         $webpack = $bin->arrayNode('webpack')->addDefaultsIfNotSet()->children();
         $webpack

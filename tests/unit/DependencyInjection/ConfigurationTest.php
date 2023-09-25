@@ -1,12 +1,11 @@
 <?php
 
-namespace Maba\Bundle\WebpackBundle\Tests\DependencyInjection;
+namespace Tests\Unit\DependencyInjection;
 
-use Codeception\TestCase\Test;
 use Maba\Bundle\WebpackBundle\DependencyInjection\Configuration;
 use Symfony\Component\Config\Definition\Processor;
 
-class ConfigurationTest extends Test
+class ConfigurationTest extends \Codeception\Test\Unit
 {
     /**
      * @param array|null $expected

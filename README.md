@@ -1,17 +1,14 @@
-Bundle to Integrate Webpack into Symfony
-====
+# Bundle to Integrate Webpack into Symfony
 
 Symfony bundle to help integrating [webpack](https://webpack.js.org/) into Symfony project.
 
-What is webpack?
-----
+## What is webpack?
 
 Module bundler and CommonJS / AMD dependency manager.
 
 For me, it replaces both grunt/gulp and RequireJS.
 
-What does this bundle do?
-----
+## What does this bundle do?
 
 1. Finds javascript entry points inside your twig templates.
 2. Runs webpack with [assets-webpack-plugin](https://github.com/sporto/assets-webpack-plugin).
@@ -21,11 +18,12 @@ Additionally, for development environment:
 
 1. Runs [webpack-dev-server](https://webpack.js.org/configuration/dev-server/), which serves and regenerates assets if they are changed.
 2. Watches twig templates for changes, updates entry points and
-restarts webpack-dev-server if webpack configuration changes.
+   restarts webpack-dev-server if webpack configuration changes.
 
 More goodies:
+
 1. Lets you configure webpack config as you want, while still providing needed parameters from Symfony, like
-entry points, aliases, environment and additional parameters.
+   entry points, aliases, environment and additional parameters.
 2. Lets you define custom entry point providers if you don't use twig or include scripts in any other way.
 3. Works with images and css/less/sass files out-of-the-box, if needed.
 4. Supports both Webpack 2 (by default) and Webpack 1.
@@ -33,11 +31,10 @@ entry points, aliases, environment and additional parameters.
 Look at [Symfony, Webpack and AngularJS Single Page Application Demo](https://github.com/mariusbalcytis/symfony-webpack-angular-demo)
 for usage examples.
 
-Also look at [MabaWebpackMigrationBundle](https://github.com/mariusbalcytis/webpack-migration-bundle) for 
+Also look at [MabaWebpackMigrationBundle](https://github.com/mariusbalcytis/webpack-migration-bundle) for
 easier migration from [AsseticBundle](https://github.com/symfony/assetic-bundle) to webpack.
 
-How does this compare to assetic?
-----
+## How does this compare to assetic?
 
 Webpack lets you create components, which know their own dependencies.
 
@@ -56,8 +53,7 @@ as an alternative).
 webpack-dev-server supports hot-reload of your files, sometimes without page refresh
 (perfect for styling and some JS frameworks, like React).
 
-Installation
-----
+## Installation
 
 ```shell
 composer require maba/webpack-bundle
@@ -91,10 +87,7 @@ is updated and as a task in your deployment). Of course, you could just add it t
 git add package.json app/config/webpack.config.js
 ```
 
-If you want to use Webpack 1 for some reason, pass `--useWebpack1` as a command line option to `setup` command.
-
-Usage
-----
+## Usage
 
 Inside twig templates:
 
@@ -108,9 +101,9 @@ Inside twig templates:
     {% end_webpack %}
 </head>
 <body>
-    
+
     <img src="{{ webpack_asset('@app/funny-kitten.png') }}"/>
-    
+
     <script src="{{ webpack_asset('@ApplicationBundle/Resources/assets/script.js') }}"></script>
 </body>
 </html>
@@ -119,14 +112,14 @@ Inside twig templates:
 Inside `script.js`:
 
 ```js
-require('./script2.js');
-require('./my-styles.less');
+require("./script2.js");
+require("./my-styles.less");
 
 function loadScript3() {
-    require.ensure([], function() {
-        require('@AnotherBundle/Resources/assets/script3.js');
-        require('./style.css');
-    });
+  require.ensure([], function () {
+    require("@AnotherBundle/Resources/assets/script3.js");
+    require("./style.css");
+  });
 }
 setTimeout(loadScript3, 1000);
 ```
@@ -149,18 +142,19 @@ forget about it, similarly to production environment:
 ```bash
 app/console maba:webpack:compile
 ```
+
 If you are running functional tests on your app, make sure to compile once for test environment to generate manifest file for test environment:
 
 ```bash
 app/console maba:webpack:compile --env=test
 ```
 
-Twig function and tag
-----
+## Twig function and tag
 
 You can choose between `webpack_asset` function and `webpack` tag.
 
 Function:
+
 ```
 webpack_asset(resource, type = null)
 ```
@@ -170,6 +164,7 @@ be extracted from provided entry point. If you are sure that there will be some 
 Otherwise, you could use `webpack` tag as it handles this for you (omits the `<link/>` tag entirely in that case).
 
 Tag:
+
 ```twig
 {% webpack [js|css] [named] [group=...] resource [resource, ...] %}
     Content that will be repeated for each compiled resource.
@@ -184,8 +179,7 @@ See usage with `named` and `group` in [Using commons chunk](#using-commons-chunk
 Keep in mind that you must provide hard-coded asset paths in both tag and function.
 This is to find all available assets in compile-time.
 
-Stylesheets
-----
+## Stylesheets
 
 By default, [ExtractTextPlugin](https://github.com/webpack-contrib/extract-text-webpack-plugin) is configured. This means
 that if you `require` any file that compiles to CSS (`.css`, `.less`, `.scss`) it is removed from compiled JS file
@@ -198,15 +192,15 @@ disable `extract_css`:
 
 ```yml
 maba_webpack:
-    config:
-        parameters:
-            extract_css: false
+  config:
+    parameters:
+      extract_css: false
 ```
 
 This plugin is also needed if you want to require css/less/sass files directly as an entry point.
 
-ES6, Less and Sass support
-----
+## ES6, Less and Sass support
+
 ES6, Less and Sass works out of the box:
 
 - use `.js` or `.jsx` extension to compile from ES6 and ES7 to ES5 using [Babel](https://babeljs.io/);
@@ -215,8 +209,8 @@ ES6, Less and Sass works out of the box:
 
 If you need any custom loaders, feel free to install them via `npm` and modify `app/config/webpack.config.js` if needed.
 
-Loading images
-----
+## Loading images
+
 Images are optimized by default using [image-webpack-loader](https://github.com/tcoopman/image-webpack-loader).
 
 You can include images directly into your twig templates by using the same `webpack_asset` function.
@@ -231,17 +225,16 @@ Of course, you can use them in your CSS, too:
 
 ```css
 .cat {
-    /* cat.png will be optimized and copied to compiled directory with hashed file name */
-    /* URL to generated image file will be in the css output  */
-    background: url("~@AcmeHelloBundle/Resources/images/cat.png")
+  /* cat.png will be optimized and copied to compiled directory with hashed file name */
+  /* URL to generated image file will be in the css output  */
+  background: url("~@AcmeHelloBundle/Resources/images/cat.png");
 }
 ```
 
 If you are providing webpack-compatible asset path in CSS, prefix it with `~`. Use relative paths as usual.
 See [css-loader](https://github.com/webpack/css-loader) for more information.
 
-Aliases
-----
+## Aliases
 
 Aliases by default are prefixed with `@` and point to some specific path.
 You can change this prefix by configuring `aliases.prefix` parameter.
@@ -264,94 +257,99 @@ if you use composer to install your frontend assets:
 
 ```yml
 maba_webpack:
-    aliases:
-        additional:
-            npm: %kernel.root_dir%/node_modules     # or any other path where assets are installed
-            bower: %kernel.root_dir%/bower
-            vendor: %kernel.root_dir%/../vendor
+  aliases:
+    additional:
+      npm: %kernel.root_dir%/node_modules # or any other path where assets are installed
+      bower: %kernel.root_dir%/bower
+      vendor: %kernel.root_dir%/../vendor
 ```
 
 Inside your JavaScript files:
 
 ```js
-var $ = require('@npm/jquery');
+var $ = require("@npm/jquery");
 ```
 
 In case you want to use different prefix:
+
 ```yaml
 maba_webpack:
-    aliases:
-        prefix: '%'
-        additional:
-            npm: %kernel.root_dir%/node_modules
+  aliases:
+    prefix: "%"
+    additional:
+      npm: %kernel.root_dir%/node_modules
 ```
+
 Now inside your JavaScript files:
 
 ```js
-var $ = require('%npm/jquery');
+var $ = require("%npm/jquery");
 ```
-
 
 Be sure to install dependencies (either npm, bower or any other) on path not directly accessible from web.
 This is not needed by webpack (it compiles them - they can be anywhere on the system) and could cause a security
 flaw (some assets contain backend examples, which could be potentially used in your production environment).
 
-Configuration
-----
+## Configuration
 
 See example with explanations.
 
 ```yml
 maba_webpack:
-    enabled_bundles:
-        - ApplicationBundle
-    twig:
-        additional_directories:
-            - %kernel.root_dir%/Resources/partials
-        suppress_errors:      true              # whether files not found or twig parse errors should be ignored
-                                                # defaults to true in dev environment
-                                                # defaults to "ignore_unkwowns" in prod - this option ignores
-                                                #     unknown functions etc., but fails on syntax errors
-                                                # set to false to always fail on any twig error
-    config:
-        path:                 '%kernel.root_dir%/config/webpack.config.js'
-        parameters:           []        # additional parameters passed to webpack config file
-                                        # for example, set dev_server_public_path and public_path to overwrite
-                                            # //localhost:8080/compiled/ and /compiled/
-                                            # see inside your webpack.config.js for more info
-        # set location of cached manifests. Useful for deploy, when you don't want to include your cache directory
-        manifest_file_path:        '%kernel.cache_dir%/webpack_manifest.php'
+  enabled_bundles:
+    - ApplicationBundle
+  twig:
+    additional_directories:
+      - %kernel.root_dir%/Resources/partials
+    suppress_errors:
+      true # whether files not found or twig parse errors should be ignored
+      # defaults to true in dev environment
+      # defaults to "ignore_unkwowns" in prod - this option ignores
+      #     unknown functions etc., but fails on syntax errors
+      # set to false to always fail on any twig error
+  config:
+    path: "%kernel.root_dir%/config/webpack.config.js"
+    parameters:
+      [] # additional parameters passed to webpack config file
+      # for example, set dev_server_public_path and public_path to overwrite
+      # //localhost:8080/compiled/ and /compiled/
+      # see inside your webpack.config.js for more info
+    # set location of cached manifests. Useful for deploy, when you don't want to include your cache directory
+    manifest_file_path: "%kernel.cache_dir%/webpack_manifest.php"
 
-    aliases:                            # allows to set aliases inside require() in your JS files
-        path_in_bundle:       /Resources/assets     # this means that require('@acme_hello/a.js')
-                                                    # will include something like
-                                                    # src/Acme/Bundles/AcmeHelloBundle/Resources/assets/a.js
-                                                    # see "Aliases" for more information
-        prefix:               '@'           # configure default prefix to be added to aliases.
-        additional:           []            # provide any other aliases, prefix is always added automatically
-    bin:
-        webpack:
-            executable: # how maba:webpack:compile executes webpack
-                        # should be array, for example ['/usr/bin/node', 'node_modules/webpack/bin/webpack.js']
-                - node_modules/.bin/webpack
-            arguments:        []        # additional parameters to pass to webpack
-                                        # --config with configuration path is always passed
-        dev_server:
-            executable: # how maba:webpack:dev-server executes webpack-dev-server
-                - node_modules/.bin/webpack-dev-server
-            arguments:  # additional parameters to pass to webpack-dev-server; these are default ones
-                - --hot
-                - --history-api-fallback
-                - --inline
-        disable_tty: false      # disables TTY setting. Defaults to false in dev environment, true in others.
-                                # TTY is needed to run dashboard and/or to display colors, but does not work
-                                # in some environments like AWS
-        working_directory: %kernel.root_dir%/..
-        
-    dashboard:                  # configuration for dashboard plugin - only works when TTY available
-        enabled: dev_server     # `always` for both compile and dev-server, `false` to disable
-        executable:
-            - node_modules/.bin/webpack-dashboard
+  aliases: # allows to set aliases inside require() in your JS files
+    path_in_bundle:
+      /Resources/assets # this means that require('@acme_hello/a.js')
+      # will include something like
+      # src/Acme/Bundles/AcmeHelloBundle/Resources/assets/a.js
+      # see "Aliases" for more information
+    prefix: "@" # configure default prefix to be added to aliases.
+    additional: [] # provide any other aliases, prefix is always added automatically
+  bin:
+    webpack:
+      executable: # how maba:webpack:compile executes webpack
+        # should be array, for example ['/usr/bin/node', 'node_modules/webpack/bin/webpack.js']
+        - node_modules/.bin/webpack
+      arguments:
+        [] # additional parameters to pass to webpack
+        # --config with configuration path is always passed
+    dev_server:
+      executable: # how maba:webpack:dev-server executes webpack-dev-server
+        - node_modules/.bin/webpack-dev-server
+      arguments: # additional parameters to pass to webpack-dev-server; these are default ones
+        - --hot
+        - --history-api-fallback
+        - --inline
+    disable_tty:
+      false # disables TTY setting. Defaults to false in dev environment, true in others.
+      # TTY is needed to run dashboard and/or to display colors, but does not work
+      # in some environments like AWS
+    working_directory: %kernel.root_dir%/..
+
+  dashboard: # configuration for dashboard plugin - only works when TTY available
+    enabled: dev_server # `always` for both compile and dev-server, `false` to disable
+    executable:
+      - node_modules/.bin/webpack-dashboard
 ```
 
 ## Configuring dev-server
@@ -366,20 +364,20 @@ dev-server listens only to localhost connections by default, add this to configu
 
 ```yml
 maba_webpack:
-    bin:
-        dev_server:
-            arguments:
-                - --hot                     # these are default options - leave them if needed
-                - --history-api-fallback
-                - --inline
-                - --host                    # let's add host option
-                - 0.0.0.0                   # each line is escaped, so option comes in it's own line
-                - --public                  # this is also needed from webpack-dev-server 2.4.3
-                - dev-server-host.dev:8080  # change to whatever host you are using
-    config:
-        parameters:                         # this is where the assets will be loaded from
-            dev_server_public_path: //dev-server-host.dev:8080/compiled/
-            dev_server: {}                  # any additional parameters to pass to `devServer` configuration
+  bin:
+    dev_server:
+      arguments:
+        - --hot # these are default options - leave them if needed
+        - --history-api-fallback
+        - --inline
+        - --host # let's add host option
+        - 0.0.0.0 # each line is escaped, so option comes in it's own line
+        - --public # this is also needed from webpack-dev-server 2.4.3
+        - dev-server-host.dev:8080 # change to whatever host you are using
+  config:
+    parameters: # this is where the assets will be loaded from
+      dev_server_public_path: //dev-server-host.dev:8080/compiled/
+      dev_server: {} # any additional parameters to pass to `devServer` configuration
 ```
 
 If you need to provide different port, be sure to put `--port` and the port itself into separate lines.
@@ -395,16 +393,15 @@ and/or `maba:webpack:dev-server`, try to give more memory for Node.js process:
 
 ```yml
 maba_webpack:
-    bin:
-        webpack:        # same with dev_server
-            executable:
-                - node
-                - "--max-old-space-size=4096"   # 4GB
-                - node_modules/webpack/bin/webpack.js
+  bin:
+    webpack: # same with dev_server
+      executable:
+        - node
+        - "--max-old-space-size=4096" # 4GB
+        - node_modules/webpack/bin/webpack.js
 ```
 
-Using commons chunk
-----
+## Using commons chunk
 
 This bundle supports both single and several
 [commons chunks](https://webpack.js.org/plugins/commons-chunk-plugin/),
@@ -414,9 +411,9 @@ In your `webpack.config.js`:
 
 ```js
 config.plugins.push(
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'commons'
-    })
+  new webpack.optimize.CommonsChunkPlugin({
+    name: "commons",
+  })
 );
 ```
 
@@ -434,7 +431,6 @@ In your base template:
 
 You can also use `webpack_named_asset` twig function instead of `webpack` tags.
 
-
 ### Grouped commons chunks
 
 `webpack` tag supports `group` option:
@@ -449,14 +445,18 @@ Name of assets are given in `options.groups`, which is passed to your `webpack.c
 Assets without group set are assigned to `default` group. Configuration example:
 
 ```js
-config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
-    name: 'admin_commons_chunk',
-    chunks: options.groups['admin']
-}));
-config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
-    name: 'front_commons_chunk',
-    chunks: options.groups['default']
-}));
+config.plugins.push(
+  new webpack.optimize.CommonsChunkPlugin({
+    name: "admin_commons_chunk",
+    chunks: options.groups["admin"],
+  })
+);
+config.plugins.push(
+  new webpack.optimize.CommonsChunkPlugin({
+    name: "front_commons_chunk",
+    chunks: options.groups["default"],
+  })
+);
 ```
 
 Keep in mind that currently the same entry point cannot belong to several groups,
@@ -470,13 +470,13 @@ resolved in different context (in webpack itself), assets pointing to parent bun
 will actually point to child bundle. This allows you to override any of the assets in the parent bundle,
 but requires to copy all of them, as they will not be looked in parent bundle's directory at all.
 
-Semantic versioning
-----
+## Semantic versioning
 
 This bundle follows [semantic versioning](http://semver.org/spec/v2.0.0.html).
 
 Public API of this bundle (in other words, you should only use these features if you want to easily update
 to new versions):
+
 - only services that are not marked as `public="false"`
 - only classes, interfaces and class methods that are marked with `@api`
 - twig functions and tags
@@ -495,8 +495,7 @@ merge them with any of your own. This bundle **might** make an assumption that a
 are installed. As compiling is made beforehand as a deployment step, you should notice any errors in
 your staging environment if there would be any.
 
-Alternatives?
-----
+## Alternatives?
 
 There are a few alternatives out there for integrating webpack.
 

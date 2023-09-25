@@ -3,10 +3,10 @@
 namespace Maba\Bundle\WebpackBundle\DependencyInjection;
 
 use Maba\Bundle\WebpackBundle\Compiler\WebpackProcessBuilder;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class MabaWebpackExtension extends Extension
 {
@@ -39,10 +39,7 @@ class MabaWebpackExtension extends Extension
     private function configureTwig(ContainerBuilder $container, array $config)
     {
         $twigDirectories = $config['twig']['additional_directories'];
-        $twigDirectories[] = '%kernel.root_dir%/Resources/views';
-        if ($container->hasParameter('kernel.project_dir')) {
-            $twigDirectories[] = '%kernel.project_dir%/templates';
-        }
+        $twigDirectories[] = '%kernel.project_dir%/templates';
         $container->setParameter('maba_webpack.twig_directories', $twigDirectories);
 
         if ($config['twig']['suppress_errors'] === true) {
@@ -57,15 +54,6 @@ class MabaWebpackExtension extends Extension
 
     private function configureConfig(ContainerBuilder $container, $config)
     {
-        if (
-            strpos($config['config']['path'], '%kernel.project_dir%') !== false
-            && !$container->hasParameter('kernel.project_dir')
-        ) {
-            $config['config']['path'] = strtr($config['config']['path'], [
-                '%kernel.project_dir%' => '%kernel.root_dir%/..',
-            ]);
-        }
-
         $container->setParameter('maba_webpack.webpack_config_path', $config['config']['path']);
         $container->setParameter('maba_webpack.webpack_config_parameters', $config['config']['parameters']);
         $container->setParameter('maba_webpack.config.manifest_file_path', $config['config']['manifest_file_path']);
@@ -73,18 +61,10 @@ class MabaWebpackExtension extends Extension
 
     private function configureAliases(ContainerBuilder $container, $config)
     {
-        $defaultAliases = [
-            'app' => '%kernel.root_dir%/Resources/assets',
-        ];
-        if ($container->hasParameter('kernel.project_dir')) {
-            $defaultAliases['root'] = '%kernel.project_dir%';
-            $defaultAliases['templates'] = '%kernel.project_dir%/templates';
-            $defaultAliases['assets'] = '%kernel.project_dir%/assets';
-        } else {
-            $defaultAliases['root'] = '%kernel.root_dir%/..';
-            $defaultAliases['templates'] = '%kernel.root_dir%/../templates';
-            $defaultAliases['assets'] = '%kernel.root_dir%/../assets';
-        }
+        $defaultAliases = [];
+        $defaultAliases['root'] = '%kernel.project_dir%';
+        $defaultAliases['templates'] = '%kernel.project_dir%/templates';
+        $defaultAliases['assets'] = '%kernel.project_dir%/assets';
 
         $additionalAliases = $config['aliases']['additional'] + $defaultAliases;
         $container->setParameter('maba_webpack.aliases.additional', $additionalAliases);

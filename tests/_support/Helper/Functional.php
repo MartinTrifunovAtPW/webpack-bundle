@@ -1,8 +1,10 @@
 <?php
-namespace Helper;
+
+namespace Test\Support\Helper;
 
 use Codeception\Module\Filesystem;
 use Codeception\Module\Symfony;
+use Codeception\TestInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
@@ -21,18 +23,17 @@ class Functional extends Symfony
      */
     protected $errorCode;
 
-    public function _initialize()
+    public function _initialize(): void
     {
         // do nothing - kernel is initialized with custom method, as configuration is passed
     }
 
-
-    public function _before(\Codeception\TestInterface $test)
+    public function _before(TestInterface $test): void
     {
         // do nothing
     }
 
-    protected function getKernelClass()
+    protected function getKernelClass(): string
     {
         require_once __DIR__ . '/../../functional/Fixtures/app/TestKernel.php';
         return \TestKernel::class;
@@ -40,9 +41,6 @@ class Functional extends Symfony
 
     protected function bootKernel($configFile = null)
     {
-        if ($this->kernel) {
-            return;
-        }
         $this->kernel = new \TestKernel(
             $this->config['environment'] . ($configFile !== null ? $configFile : ''),
             $this->config['debug']
@@ -55,13 +53,11 @@ class Functional extends Symfony
 
     public function bootKernelWith($configFile = null)
     {
-        $this->kernel = null;
         $this->bootKernel($configFile);
         $this->container = $this->kernel->getContainer();
         $this->client = new SymfonyConnector($this->kernel);
         $this->client->followRedirects(true);
     }
-
 
     public function cleanUp()
     {
@@ -76,21 +72,6 @@ class Functional extends Symfony
         }
         if (file_exists(__DIR__ . '/../../functional/Fixtures/yarn.lock')) {
             unlink(__DIR__ . '/../../functional/Fixtures/yarn.lock');
-        }
-        if (file_exists(__DIR__ . '/../../functional/Fixtures/root_v1/package.json')) {
-            unlink(__DIR__ . '/../../functional/Fixtures/root_v1/package.json');
-        }
-        if (file_exists(__DIR__ . '/../../functional/Fixtures/root_v1/package-lock.json')) {
-            unlink(__DIR__ . '/../../functional/Fixtures/root_v1/package-lock.json');
-        }
-        if (file_exists(__DIR__ . '/../../functional/Fixtures/root_v1/yarn.lock')) {
-            unlink(__DIR__ . '/../../functional/Fixtures/root_v1/yarn.lock');
-        }
-        if (file_exists(__DIR__ . '/../../functional/Fixtures/root_v1/webpack.config.js')) {
-            unlink(__DIR__ . '/../../functional/Fixtures/root_v1/webpack.config.js');
-        }
-        if (file_exists(__DIR__ . '/../../functional/Fixtures/root_v1/config.js')) {
-            unlink(__DIR__ . '/../../functional/Fixtures/root_v1/config.js');
         }
         if (file_exists(__DIR__ . '/../../functional/Fixtures/app/config/webpack.config.js')) {
             unlink(__DIR__ . '/../../functional/Fixtures/app/config/webpack.config.js');
@@ -152,12 +133,12 @@ class Functional extends Symfony
 
     public function seeInCommandDisplay($substring)
     {
-        $this->assertContains($substring, $this->commandTester->getDisplay());
+        $this->assertStringContainsStringIgnoringCase($substring, $this->commandTester->getDisplay());
     }
 
     public function dontSeeInCommandDisplay($substring)
     {
-        $this->assertNotContains($substring, $this->commandTester->getDisplay());
+        $this->assertStringNotContainsStringIgnoringCase($substring, $this->commandTester->getDisplay());
     }
 
     public function seeFileIsSmallerThan($smallerFilePath, $largerFilePath)
